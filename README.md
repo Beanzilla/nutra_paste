@@ -22,3 +22,14 @@ Most of the settings you'll want to change are contained within settings.lua so 
 * `log_production`, In case you wanted/need to get some extra debug on what is happening. (This should be false on servers and more stable/long running environments)
 
 * `craft`, Can any player craft a Nutra Paste Machine to make meals with?
+
+## How to make it
+
+```
+W = Wood Planks (Uses groups so any wood planks will work)
+S = Sapling (Uses groups so any sapling will work)
+
+_  W _
+W S W
+_  W _
+```
