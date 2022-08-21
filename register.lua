@@ -4,13 +4,24 @@ local S = minetest.get_translator("nutra_paste")
 minetest.register_craftitem("nutra_paste:meal", {
     description = "Nutra Paste",
     inventory_image = "nutra_paste_meal.png",
-    stack_max = 99,
+    stack_max = 1000, -- from 99 to 1000 (yeah, should be good for stacking now
     on_use = minetest.item_eat(1)
 })
 minetest.register_craft({
     type = "fuel",
     recipe = "nutra_paste:meal",
     burntime = 1
+})
+minetest.register_craftitem("nutra_paste:nutra_core", {
+    description = "A Nutra Block Core",
+    inventory_image = "nutra_paste_core.png",
+    stack_max = 99,
+    on_use = minetest.item_eat(3)
+})
+minetest.register_craft({
+    type = "fuel",
+    recipe = "nutra_paste:nutra_core",
+    burntime = 18
 })
 
 nutra_paste.update = function (pos, elapsed)
@@ -139,8 +150,8 @@ end
 minetest.register_node("nutra_paste:machine", {
     description = "Nutra Paste Machine",
     _doc_items_long_desc = S("While Nutra Paste tastes horrible and isn't very efficent as food it is freely made."),
-    _dock_items_usagehelp = S("Place the machine down and wait till it produces Nutra Paste Meals."),
-    _dock_items_hidden=false,
+    _doc_items_usagehelp = S("Place the machine down and wait till it produces Nutra Paste Meals."),
+    _doc_items_hidden=false,
     tiles = {
         mod_name.."block"..extent,
     },
@@ -267,5 +278,54 @@ end
 minetest.register_craft({
     type = "fuel",
     recipe = "nutra_paste:machine",
-    burntime = 60
+    burntime = 65
 })
+
+minetest.register_node("nutra_paste:nutra_block", {
+    description = "Block of Nutra Paste",
+    _doc_items_long_desc = S("A block of nutra paste while still tastes horrible it's some what effective as food."),
+    _doc_items_usagehelp = S("Place the node down and punch it, or punch it while in your hand to get a little bit of food."),
+    _doc_items_hidden = false,
+    tiles = {
+        mod_name.."nutra_block"..extent,
+    },
+    groups = grouping,
+    sounds = sounding,
+    paramtype2 = "facedir",
+    light_source = 1,
+    drop = "nutra_paste:meal 9",
+    on_use = minetest.item_eat(7) -- 3.5 breads
+})
+
+minetest.register_craft({
+    type = "fuel",
+    recipe = "nutra_paste:nutra_block",
+    burntime = 50
+})
+
+if nutra_paste.settings.craft then
+	minetest.register_craft({
+	    output = "nutra_paste:nutra_core",
+	    recipe = {
+		{"nutra_paste:meal", "nutra_paste:meal", "nutra_paste:meal"},
+		{"nutra_paste:meal", "nutra_paste:meal", "nutra_paste:meal"},
+		{"nutra_paste:meal", "nutra_paste:meal", "nutra_paste:meal"}
+	    }
+	})
+
+	minetest.register_craft({
+	    output = "nutra_paste:nutra_block",
+	    recipe = {
+		{"nutra_paste:meal", "nutra_paste:meal", "nutra_paste:meal"},
+		{"nutra_paste:meal", "nutra_paste:nutra_core", "nutra_paste:meal"},
+		{"nutra_paste:meal", "nutra_paste:meal", "nutra_paste:meal"}
+	    }
+	})
+end
+
+minetest.register_on_punchnode(function(pos, node, puncher)
+    if node.name == "nutra_paste:nutra_block" then
+        minetest.item_eat(7) -- 3.5 breads
+        minetest.remove_node(pos)
+    end
+end)

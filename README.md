@@ -7,7 +7,7 @@ The concept is from the game [Rimworld](https://rimworldgame.com/)
 ## How it works
 
 Once you get wood you can make a Nutra Paste Machine, this block once placed will produce Nutra Paste. Nutra Paste is a meal which provides
- half a hunger point or half a hit point of food, thus making it not prefered, but can be used to keep you alive.
+ half a hunger point or half a hit point of food, thus making it not preferred, but can be used to keep you alive.
 
 ## What to change something?
 
